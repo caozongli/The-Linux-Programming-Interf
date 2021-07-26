@@ -1,3 +1,8 @@
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <stdio.h>
 #include <string.h>
 
 #define MAX_PATH 1024
@@ -30,7 +35,7 @@ void dirwalk(char *dir, void (*fcn)(char *))
 
 
 
-void fsize(char *naem)
+void fsize(char *name)
 {
 	struct stat stbuf;
 	if(stat(name, &stbuf) == -1) 	// 获取属性
@@ -38,17 +43,17 @@ void fsize(char *naem)
 		fprintf(stderr, "fsize: can't access %s\n", name);
 		return ;
 	}
-	if(stbuf.st_mode & S_IFMT == S_IFDIR) 	//判断是否为目录
+	if((stbuf.st_mode & S_IFMT) == S_IFDIR) 	//判断是否为目录
 		dirwalk(name, fsize); 	//回调函数：参数为函数指针
 	printf("%8ld %s\n", stbuf.st_size, name);
 }
 
-int main(int argc, char **argc)
+int main(int argc, char **argv)
 {
 	if(argc == 1) /* default: current directory */
 		fsize("."); 	//没有传参数，当前目录
 	else
-		while(--argv > 0)
-			fsize(*++agv);
+		while(--argc > 0)
+			fsize(*++argv);
 	return 0;
 }
