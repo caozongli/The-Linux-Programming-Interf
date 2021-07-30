@@ -6,11 +6,17 @@
 #include <unistd.h>
 #include <string.h>
 
+void pp(int d)
+{
+	printf("%d\n", d);
+}
+
 int main(int argc, char *argv[])
 {
 	int fd;
 	char name[1024];
 	int i = 0;
+	pp(i);
 	while(1)
 	{
 		sprintf(name, "file%d", ++i);
