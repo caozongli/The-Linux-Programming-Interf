@@ -5,6 +5,16 @@
 void do_sig(int n)
 {}
 
+int mysleep(int n)
+{
+	signal(SIGALRM, do_sig);
+	//1.阻塞SIGARM
+	alarm(n); // 1秒
+	//2.解出阻塞SIGALRM
+
+	pause;
+}
+
 int main(void)
 {
 	struct sigaction act;
